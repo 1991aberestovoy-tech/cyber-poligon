@@ -1,7 +1,7 @@
 const TOTAL_SECONDS = 45 * 60;
-const STORAGE_KEY = "cyber-shift-progress-v2";
+const STORAGE_KEY = "cyber-shift-progress-v3";
 
-const missionPacks = [
+const missionPacks = window.CTF_MISSION_PACKS || [
   {
     id: "shift-1",
     name: "Смена 1: первый инцидент",
@@ -676,7 +676,7 @@ function renderTask(mission) {
   if (mission.type === "text") {
     const row = document.createElement("div");
     row.className = "input-row";
-    row.innerHTML = `<label for="textAnswer">Ответ</label><input id="textAnswer" autocomplete="off" placeholder="Введи слово">`;
+    row.innerHTML = `<label for="textAnswer">Ответ</label><input id="textAnswer" autocomplete="off" placeholder="Введи ответ или флаг">`;
     missionTask.append(row);
     const saved = state.answers[state.current];
     if (saved) row.querySelector("input").value = saved;

@@ -6,9 +6,9 @@
     <title>Киберполигон: смена за 45 минут</title>
     <meta
       name="description"
-      content="Профориентационная игра по кибербезопасности для школьников: два комплекта по 10 миссий, 40-50 минут, без регистрации."
+      content="CTF-турнир по кибербезопасности для школьников: два комплекта по 10 заданий, 40-50 минут, без регистрации."
     >
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=ctf1">
   </head>
   <body>
     <main class="app">
@@ -20,24 +20,24 @@
             <span></span><span></span><span></span><span></span>
           </div>
           <div class="terminal-card">
-            <p>incident.log</p>
-            <code>09:14 alert: suspicious_login</code>
-            <code>09:18 mail: urgent_invoice.zip</code>
-            <code>09:25 dns: unknown-domain.site</code>
+            <p>ctf-board.log</p>
+            <code>web: robots.txt -> hidden path</code>
+            <code>crypto: base64 -> flag found</code>
+            <code>forensics: metadata -> clue</code>
           </div>
           <div class="radar">
             <i></i>
           </div>
         </div>
         <div class="intro-copy">
-          <p class="eyebrow">Профориентационная игра</p>
-          <h1>Киберполигон: смена за 45 минут</h1>
+          <p class="eyebrow">Школьный CTF-турнир</p>
+          <h1>Киберполигон: CTF за 45 минут</h1>
           <p class="lead">
-            Ты входишь в команду школьного центра безопасности. За одну смену нужно проверить письма,
-            пароли, логи, сайт и план реагирования на инцидент.
+            Команда получает задания в стиле CTF: Web, Crypto, Forensics, OSINT, Logs и Incident Response.
+            Находи флаги, объясняй ход решения и набирай очки.
           </p>
           <div class="intro-facts">
-            <span>2 смены по 10 миссий</span>
+            <span>2 трека по 10 заданий</span>
             <span>40-50 минут</span>
             <span>Без регистрации</span>
           </div>
@@ -106,6 +106,7 @@
       </section>
     </main>
 
-    <script src="app.js"></script>
+    <script src="ctf-missions.js?v=ctf1"></script>
+    <script src="app.js?v=ctf1"></script>
   </body>
 </html>
