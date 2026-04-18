@@ -1,0 +1,5 @@
+cloudflared
+cloudflared-*.tgz
+bore
+bore.tar.gz
+.DS_Store

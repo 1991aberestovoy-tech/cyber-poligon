@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Киберполигон: смена за 45 минут</title>
+    <meta
+      name="description"
+      content="Профориентационная игра по кибербезопасности для школьников: два комплекта по 10 миссий, 40-50 минут, без регистрации."
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app">
+      <section class="intro-screen" id="introScreen">
+        <div class="intro-art" aria-hidden="true">
+          <div class="screen-grid">
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="terminal-card">
+            <p>incident.log</p>
+            <code>09:14 alert: suspicious_login</code>
+            <code>09:18 mail: urgent_invoice.zip</code>
+            <code>09:25 dns: unknown-domain.site</code>
+          </div>
+          <div class="radar">
+            <i></i>
+          </div>
+        </div>
+        <div class="intro-copy">
+          <p class="eyebrow">Профориентационная игра</p>
+          <h1>Киберполигон: смена за 45 минут</h1>
+          <p class="lead">
+            Ты входишь в команду школьного центра безопасности. За одну смену нужно проверить письма,
+            пароли, логи, сайт и план реагирования на инцидент.
+          </p>
+          <div class="intro-facts">
+            <span>2 смены по 10 миссий</span>
+            <span>40-50 минут</span>
+            <span>Без регистрации</span>
+          </div>
+          <div class="pack-selector" id="packSelector" aria-label="Выбор смены"></div>
+          <button class="primary-button" id="startGame">Начать смену</button>
+          <button class="text-button" id="resumeGame">Продолжить</button>
+        </div>
+      </section>
+
+      <section class="game-shell hidden" id="gameShell" aria-live="polite">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Киберполигон</p>
+            <h2 id="missionTitle">Миссия</h2>
+          </div>
+          <div class="status-strip" aria-label="Статус игры">
+            <span id="timer">45:00</span>
+            <span id="score">0 баллов</span>
+            <span id="progressText">1 / 10</span>
+          </div>
+        </header>
+
+        <div class="progress-track" aria-hidden="true">
+          <div id="progressBar"></div>
+        </div>
+
+        <section class="workbench">
+          <aside class="mission-map" id="missionMap" aria-label="Список миссий"></aside>
+
+          <article class="mission-panel">
+            <div class="mission-meta">
+              <span id="missionRole"></span>
+              <span id="missionDifficulty"></span>
+              <span id="missionTime"></span>
+            </div>
+            <p id="missionStory" class="story"></p>
+            <div id="missionTask" class="task-area"></div>
+            <div class="feedback" id="feedback" role="status"></div>
+            <div class="actions">
+              <button class="secondary-button" id="prevMission">Назад</button>
+              <button class="primary-button" id="checkAnswer">Проверить</button>
+              <button class="secondary-button" id="nextMission">Дальше</button>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <section class="result-screen hidden" id="resultScreen">
+        <div class="result-art" aria-hidden="true">
+          <div class="badge">
+            <span id="badgeLevel">SOC</span>
+          </div>
+        </div>
+        <div class="result-copy">
+          <p class="eyebrow">Смена завершена</p>
+          <h2 id="resultTitle">Твой результат</h2>
+          <p id="resultText" class="lead"></p>
+          <div class="result-stats">
+            <span id="finalScore"></span>
+            <span id="finalTime"></span>
+            <span id="finalLevel"></span>
+          </div>
+          <div id="careerHints" class="career-hints"></div>
+          <button class="primary-button" id="restartGame">Пройти заново</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
