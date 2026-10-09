@@ -1,4 +1,4 @@
-window.CTF_MISSION_PACKS = [
+const CTF_TRACKS = [
   {
     id: "ctf-qual",
     name: "Трек 1: CTF Quals",
@@ -8,7 +8,7 @@ window.CTF_MISSION_PACKS = [
         title: "Base64-разминка",
         role: "Crypto",
         difficulty: "Легко",
-        time: "3 минуты",
+        time: "1 минута",
         points: 10,
         story:
           "На табло CTF появился первый зашифрованный флаг. Организаторы оставили подсказку: это обычная кодировка Base64.",
@@ -26,7 +26,7 @@ window.CTF_MISSION_PACKS = [
         title: "robots.txt",
         role: "Web",
         difficulty: "Легко",
-        time: "4 минуты",
+        time: "2 минуты",
         points: 10,
         story:
           "Веб-задание начинается с открытого файла robots.txt. В CTF такие файлы часто ведут к скрытым директориям.",
@@ -52,7 +52,7 @@ window.CTF_MISSION_PACKS = [
         title: "Шифр Цезаря",
         role: "Crypto",
         difficulty: "Легко",
-        time: "4 минуты",
+        time: "2 минуты",
         points: 10,
         story:
           "Флаг был сдвинут на 3 буквы вперед по английскому алфавиту. Нужно вернуть исходный текст.",
@@ -67,7 +67,7 @@ window.CTF_MISSION_PACKS = [
         title: "Подозрительный запрос",
         role: "Logs",
         difficulty: "Средне",
-        time: "5 минут",
+        time: "2 минуты",
         points: 15,
         story:
           "В access.log спрятан запрос, который похож на попытку добраться до файла с флагом.",
@@ -93,7 +93,7 @@ window.CTF_MISSION_PACKS = [
         title: "View Source",
         role: "Web",
         difficulty: "Легко",
-        time: "3 минуты",
+        time: "1 минута",
         points: 10,
         story:
           "На странице задания ничего не видно, но в исходном коде остался комментарий разработчика.",
@@ -113,7 +113,7 @@ window.CTF_MISSION_PACKS = [
         title: "Cookie Role",
         role: "Web",
         difficulty: "Средне",
-        time: "5 минут",
+        time: "2 минуты",
         points: 15,
         story:
           "В задании видно, что роль пользователя хранится в cookie. Нужно понять, где ошибка безопасности.",
@@ -138,7 +138,7 @@ window.CTF_MISSION_PACKS = [
         title: "LSB-пиксели",
         role: "Forensics",
         difficulty: "Средне",
-        time: "5 минут",
+        time: "2 минуты",
         points: 15,
         story:
           "Изображение слишком обычное, но организаторы дали младшие биты нескольких пикселей. Они складываются в ASCII.",
@@ -156,7 +156,7 @@ window.CTF_MISSION_PACKS = [
         title: "DNS TXT",
         role: "OSINT",
         difficulty: "Средне",
-        time: "4 минуты",
+        time: "2 минуты",
         points: 15,
         story:
           "В OSINT-задаче нужно проверить DNS-записи домена CTF-стенда.",
@@ -182,7 +182,7 @@ window.CTF_MISSION_PACKS = [
         title: "Порядок реагирования",
         role: "Incident Response",
         difficulty: "Сложно",
-        time: "5 минут",
+        time: "2 минуты",
         points: 20,
         story:
           "На CTF-инфраструктуре заметили подозрительную активность. Нужно выбрать порядок первых действий синей команды.",
@@ -202,7 +202,7 @@ window.CTF_MISSION_PACKS = [
         title: "Финал Quals",
         role: "Mixed",
         difficulty: "Сложно",
-        time: "7 минут",
+        time: "3 минуты",
         points: 25,
         story:
           "Последняя задача объединяет несколько подсказок: robots.txt, HTML-комментарий, cookie role и странный запрос к flag.txt.",
@@ -235,7 +235,7 @@ window.CTF_MISSION_PACKS = [
         title: "JWT Payload",
         role: "Web",
         difficulty: "Средне",
-        time: "5 минут",
+        time: "2 минуты",
         points: 15,
         story:
           "Организаторы дали декодированный payload JWT. Нужно извлечь флаг из подсказки.",
@@ -256,7 +256,7 @@ window.CTF_MISSION_PACKS = [
         title: "SQLi: найди защиту",
         role: "AppSec",
         difficulty: "Сложно",
-        time: "6 минут",
+        time: "3 минуты",
         points: 20,
         story:
           "В коде формы поиска пользовательский ввод склеивается с SQL-строкой. Нужно выбрать правильные меры защиты.",
@@ -281,7 +281,7 @@ window.CTF_MISSION_PACKS = [
         title: "IDOR",
         role: "Web",
         difficulty: "Средне",
-        time: "4 минуты",
+        time: "2 минуты",
         points: 15,
         story:
           "Участник видит URL профиля /profile/120. При изменении числа открывается чужой профиль с флагом.",
@@ -299,7 +299,7 @@ window.CTF_MISSION_PACKS = [
         title: "Follow HTTP Stream",
         role: "Forensics",
         difficulty: "Средне",
-        time: "5 минут",
+        time: "2 минуты",
         points: 15,
         story:
           "В дампе трафика нужно открыть HTTP stream и найти заголовок с флагом.",
@@ -319,7 +319,7 @@ window.CTF_MISSION_PACKS = [
         title: "XOR Key",
         role: "Crypto",
         difficulty: "Сложно",
-        time: "5 минут",
+        time: "2 минуты",
         points: 20,
         story:
           "Флаг зашифровали XOR с одним байтом. Организаторы дали ключ, чтобы проверить внимательность.",
@@ -338,7 +338,7 @@ window.CTF_MISSION_PACKS = [
         title: "SUID-файл",
         role: "Linux",
         difficulty: "Сложно",
-        time: "5 минут",
+        time: "2 минуты",
         points: 20,
         story:
           "В Linux-задании нужно найти бинарник с необычными правами, который может быть путем к повышению привилегий.",
@@ -364,7 +364,7 @@ window.CTF_MISSION_PACKS = [
         title: "Контейнерные секреты",
         role: "DevSecOps",
         difficulty: "Средне",
-        time: "5 минут",
+        time: "2 минуты",
         points: 15,
         story:
           "В CTF-инфраструктуре секреты случайно попали в переменные окружения контейнера.",
@@ -390,7 +390,7 @@ window.CTF_MISSION_PACKS = [
         title: "Regex-флаг",
         role: "Scripting",
         difficulty: "Легко",
-        time: "3 минуты",
+        time: "1 минута",
         points: 10,
         story:
           "В большом тексте нужно найти флаг по шаблону CTF{...}.",
@@ -407,7 +407,7 @@ window.CTF_MISSION_PACKS = [
         title: "Таймлайн атаки",
         role: "Forensics",
         difficulty: "Сложно",
-        time: "6 минут",
+        time: "3 минуты",
         points: 20,
         story:
           "Нужно восстановить порядок событий по артефактам инцидента.",
@@ -427,7 +427,7 @@ window.CTF_MISSION_PACKS = [
         title: "Финал: Blue Team Wins",
         role: "Mixed",
         difficulty: "Сложно",
-        time: "6 минут",
+        time: "3 минуты",
         points: 25,
         story:
           "Финальный разбор: команда нашла JWT-подсказку, IDOR, HTTP stream, SUID-файл и секреты в контейнере.",
@@ -451,5 +451,234 @@ window.CTF_MISSION_PACKS = [
         fail: "Нужен план, который закрывает веб-ошибки, секреты, Linux-риск и сохраняет доказательства."
       }
     ]
+  },
+  {
+    id: "ctf-stego-osint",
+    name: "Трек 3: Stego & OSINT",
+    description: "По мотивам турнирных задач: форматы файлов, EXIF, альфа-канал, азбука Морзе, шифр Полибия, архивы и цифровые следы.",
+    missions: [
+      {
+        title: "Картошка с чужим заголовком",
+        role: "Forensics",
+        difficulty: "Легко",
+        time: "1 минута",
+        points: 10,
+        story:
+          "Файл potato.jpg не открывается как фотография. Участник проверил первые байты и заметил, что расширение не совпадает с настоящим форматом.",
+        type: "single",
+        prompt: "Какое расширение нужно дать файлу?",
+        artifact: [
+          "Файл: potato.jpg",
+          "Первые байты: 89 50 4E 47 0D 0A 1A 0A",
+          "Справка: PNG начинается с 89 50 4E 47, JPEG - с FF D8 FF"
+        ],
+        options: [".png", ".zip", ".txt", ".wav"],
+        answer: 0,
+        success: "Верно. Сигнатура файла указывает на PNG, даже если расширение было изменено.",
+        fail: "Сравни первые четыре байта со справкой о сигнатурах PNG и JPEG."
+      },
+      {
+        title: "Шёпот EXIF",
+        role: "Stego",
+        difficulty: "Легко",
+        time: "2 минуты",
+        points: 10,
+        story:
+          "Внешне снимок выглядит обычно, но автор оставил сообщение в метаданных изображения.",
+        type: "text",
+        prompt: "Найди флаг в выводе exiftool.",
+        artifact: [
+          "File Name : forest.png",
+          "Camera Model Name : SchoolCam",
+          "User Comment : CTF{exif_clue}",
+          "Image Size : 1280x720"
+        ],
+        answer: "ctf{exif_clue}",
+        success: "Флаг принят. Метаданные часто содержат комментарии, координаты и сведения об устройстве.",
+        fail: "Проверь поле User Comment."
+      },
+      {
+        title: "Прозрачная черешня",
+        role: "Stego",
+        difficulty: "Средне",
+        time: "2 минуты",
+        points: 15,
+        story:
+          "В PNG с черешней цветовые каналы не дали подсказки. Зато значения прозрачности первых пикселей похожи на ASCII-коды.",
+        type: "text",
+        prompt: "Преобразуй десятичные значения alpha в ASCII и введи флаг.",
+        artifact: [
+          "Alpha: 67 84 70 123 97 108 112 104 97 125",
+          "Подсказка: 67 = C, 84 = T, 70 = F"
+        ],
+        answer: "ctf{alpha}",
+        success: "Верно. Сообщение было спрятано в альфа-канале изображения.",
+        fail: "Каждое число соответствует одному символу ASCII."
+      },
+      {
+        title: "Морзянка в шуме",
+        role: "Stego",
+        difficulty: "Средне",
+        time: "2 минуты",
+        points: 15,
+        story:
+          "После просмотра спектрограммы аудиофайла команда выписала точки и тире. Осталось расшифровать сообщение.",
+        type: "text",
+        prompt: "Расшифруй азбуку Морзе и оформи второе слово как флаг CTF{...}.",
+        artifact: [
+          "-.-.  -  ..-.  /  .--  .-  ...-  .  ...",
+          "/ разделяет слова"
+        ],
+        answer: "ctf{waves}",
+        success: "Верно. Последовательность читается как CTF WAVES.",
+        fail: "Первая группа даёт CTF. Расшифруй символы после разделителя /."
+      },
+      {
+        title: "Квадрат Полибия",
+        role: "Crypto",
+        difficulty: "Средне",
+        time: "2 минуты",
+        points: 15,
+        story:
+          "На полях блокнота найдены пары цифр. Первая цифра задаёт строку квадрата, вторая - столбец.",
+        type: "text",
+        prompt: "Расшифруй пары и введи флаг.",
+        artifact: [
+          "    1 2 3 4 5",
+          "1 | A B C D E",
+          "2 | F G H I/J K",
+          "3 | L M N O P",
+          "4 | Q R S T U",
+          "5 | V W X Y Z",
+          "Код: 13 44 21 / 22 42 24 14"
+        ],
+        answer: "ctf{grid}",
+        success: "Флаг принят. Пары дают CTF GRID.",
+        fail: "Читай каждую пару как номер строки и номер столбца."
+      },
+      {
+        title: "Матрёшка архивов",
+        role: "Forensics",
+        difficulty: "Средне",
+        time: "2 минуты",
+        points: 15,
+        story:
+          "Внутри нескольких архивов спрятаны подсказки. Нужно выбрать файл, который действительно сообщает пароль следующего уровня.",
+        type: "single",
+        prompt: "Какой файл нужно прочитать следующим?",
+        artifact: [
+          "level1.zip -> level2.zip, preview.jpg",
+          "level2.zip -> level3.zip, readme.txt",
+          "readme.txt -> password for level3: cherry",
+          "preview.jpg -> обычная картинка"
+        ],
+        options: ["preview.jpg", "readme.txt", "level1.zip", "удалить все архивы"],
+        answer: 1,
+        success: "Верно. readme.txt содержит явную подсказку к следующему уровню.",
+        fail: "Ищи текстовый файл рядом с зашифрованным архивом следующего уровня."
+      },
+      {
+        title: "Пост ровно в звонок",
+        role: "OSINT",
+        difficulty: "Средне",
+        time: "2 минуты",
+        points: 15,
+        story:
+          "Автор публикации написал, что выложил фото ровно в 21:00 по местному времени. Платформа показывает время в UTC.",
+        type: "single",
+        prompt: "Какой часовой пояс использовал автор?",
+        artifact: [
+          "Время публикации на платформе: 18:00 UTC",
+          "Подпись автора: Сейчас ровно 21:00, прозвенел вечерний звонок"
+        ],
+        options: ["UTC-3", "UTC", "UTC+2", "UTC+3"],
+        answer: 3,
+        success: "Верно. Местное время опережает UTC на три часа.",
+        fail: "Вычти 18:00 из указанного автором местного времени 21:00."
+      },
+      {
+        title: "Кот на люке",
+        role: "OSINT",
+        difficulty: "Средне",
+        time: "2 минуты",
+        points: 15,
+        story:
+          "На фотографии видны кот, дорожный знак, телефон магазина и часть автомобильного номера. Нужно определить город по нескольким независимым признакам.",
+        type: "single",
+        prompt: "Какой город лучше всего соответствует уликам?",
+        artifact: [
+          "Телефонный код страны: +90",
+          "Код региона на номерном знаке: 34",
+          "Справка: +90 - Турция, регион 34 - Стамбул"
+        ],
+        options: ["Анкара", "Стамбул", "Измир", "Бурса"],
+        answer: 1,
+        success: "Верно. Код страны и регион 34 вместе указывают на Стамбул.",
+        fail: "Используй оба признака и справку под фотографией."
+      },
+      {
+        title: "Секрет в прошлом",
+        role: "Forensics",
+        difficulty: "Сложно",
+        time: "2 минуты",
+        points: 20,
+        story:
+          "Разработчик удалил файл .env из последнего коммита, но секрет мог сохраниться в истории Git.",
+        type: "single",
+        prompt: "Какое действие поможет проверить предыдущую версию файла?",
+        artifact: [
+          "a91c0de Remove .env from repository",
+          "72bd118 Add demo configuration",
+          "README: token was rotated after the leak"
+        ],
+        options: [
+          "git show 72bd118:.env",
+          "git status --short",
+          "mkdir .env",
+          "переименовать README"
+        ],
+        answer: 0,
+        success: "Верно. git show позволяет прочитать файл из выбранного коммита без изменения рабочей копии.",
+        fail: "Нужна команда чтения файла из старого коммита, а не изменения текущей папки."
+      },
+      {
+        title: "Финал: маршрут кота",
+        role: "Mixed",
+        difficulty: "Сложно",
+        time: "3 минуты",
+        points: 25,
+        story:
+          "Финальная цепочка объединяет поддельное расширение, метаданные, скрытый канал изображения, аудиоподсказку и геолокацию.",
+        type: "case",
+        prompt: "Какой порядок исследования сохраняет смысл цепочки и не портит артефакты?",
+        artifact: [
+          "potato.jpg имеет сигнатуру PNG",
+          "EXIF содержит имя следующего файла",
+          "alpha-канал даёт слово waves",
+          "waves.wav содержит Морзе",
+          "фото кота содержит коды +90 и 34"
+        ],
+        options: [
+          "Сделать копии, определить формат, изучить EXIF и каналы, разобрать аудио, сопоставить географические признаки",
+          "Сразу пересохранить все изображения и удалить оригиналы",
+          "Проверить только имя файла и игнорировать содержимое",
+          "Опубликовать найденные метаданные, не проверяя их"
+        ],
+        answer: 0,
+        success: "Финальный флаг: CTF{cat_route}. Ты прошёл цепочку Stego & OSINT и сохранил доказательства.",
+        fail: "Начинай с копий и переходи от формата файла к метаданным, скрытым каналам, аудио и географии."
+      }
+    ]
+  }
+];
+
+window.CTF_MISSION_PACKS = [
+  {
+    id: "ctf-marathon",
+    name: "CTF-марафон: 30 заданий",
+    description: "Единый маршрут примерно на час: Web, Crypto, Forensics, Linux, Stego, OSINT и реагирование на инциденты.",
+    missions: CTF_TRACKS
+      .flatMap((track) => track.missions)
+      .map((mission, index) => ({ ...mission, id: index + 1 }))
   }
 ];
