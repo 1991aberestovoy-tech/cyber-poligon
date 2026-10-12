@@ -572,7 +572,7 @@ const missionPacks = window.CTF_MISSION_PACKS || [
 let state = loadState();
 let activePackId = state.packId;
 let missions = getPackById(activePackId).missions;
-let activeShift = getPackById(activePackId).shift || 1;
+let activeShift = window.SHIFT_ONLY || getPackById(activePackId).shift || 1;
 let tickId = null;
 
 const SHIFT_COPY = {

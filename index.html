@@ -65,7 +65,7 @@
             <span class="brand-mark"><svg><use href="#icon-shield"></use></svg></span>
             <span><strong>КИБЕРПОЛИГОН</strong><small>Учебный центр защиты</small></span>
           </a>
-          <nav class="shift-switch" role="tablist" aria-label="Выбор смены">
+          <nav class="shift-switch" hidden role="tablist" aria-label="Выбор смены">
             <button class="shift-tab active" type="button" role="tab" data-shift="1" aria-selected="true">Смена 1</button>
             <button class="shift-tab" type="button" role="tab" data-shift="2" aria-selected="false">Смена 2 <em>NEW</em></button>
           </nav>
@@ -304,6 +304,7 @@
       </section>
     </main>
 
+    <script>window.SHIFT_ONLY = 2;</script>
     <script src="ctf-missions.js?v=ctf2"></script>
     <script src="shift2-missions.js?v=s2a"></script>
     <script src="shift2-core.js?v=s2a"></script>

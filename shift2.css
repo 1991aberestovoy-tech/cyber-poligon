@@ -212,3 +212,4 @@ body[data-shift="2"] .task-area{display:grid;grid-template-columns:minmax(0,1fr)
 .lab-controls{grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
 .term-quick{min-width:0}
 .mission-panel{overflow-x:clip}
+.shift-switch[hidden]{display:none!important}
