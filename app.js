@@ -572,7 +572,35 @@ const missionPacks = window.CTF_MISSION_PACKS || [
 let state = loadState();
 let activePackId = state.packId;
 let missions = getPackById(activePackId).missions;
+let activeShift = getPackById(activePackId).shift || 1;
 let tickId = null;
+
+const SHIFT_COPY = {
+  1: {
+    eyebrow: "Школьный CTF-турнир",
+    title: "Твоя смена<br>в центре защиты",
+    lead: "Исследуй инфраструктуру, находи флаги и связывай события в единый инцидент. Здесь ценятся внимательность, логика и командная работа.",
+    time: "60:00",
+    routes: "1",
+    missions: "30",
+    mode: "CTF",
+    heading: "Выбери уровень операции",
+    note: "30 заданий в одном маршруте примерно на 60 минут",
+    start: "Начать смену"
+  },
+  2: {
+    eyebrow: "Смена 2 · уровень «Эксперт»",
+    title: "Глубокий слой<br>под поверхностью",
+    lead: "Картинки с двойным дном, зашифрованные записки, живой терминал и журналы взлома. Здесь мало знать приёмы — нужно исследовать, сопоставлять и перебирать.",
+    time: "120:00",
+    routes: "5 блоков",
+    missions: "40",
+    mode: "EXPERT",
+    heading: "Выбери глубину погружения",
+    note: "40 заданий и финал примерно на 2 часа. Подсказки стоят 20% баллов",
+    start: "Начать смену 2"
+  }
+};
 
 const introScreen = document.querySelector("#introScreen");
 const gameShell = document.querySelector("#gameShell");
@@ -602,13 +630,62 @@ document.querySelector("#checkAnswer").addEventListener("click", () => checkCurr
 document.querySelector("#prevMission").addEventListener("click", () => moveMission(-1));
 document.querySelector("#nextMission").addEventListener("click", () => moveMission(1));
 
+document.querySelectorAll(".shift-tab").forEach((tab) => {
+  tab.addEventListener("click", () => applyShift(Number(tab.dataset.shift)));
+});
+document.querySelector("#openToolkit")?.addEventListener("click", () => window.Shift2?.toggleToolkit(true));
+
 initNetworkMap();
-renderPackSelector();
-renderMap();
-renderResumeButton();
+applyShift(activeShift, { silent: true });
+
+function applyShift(shift, options = {}) {
+  activeShift = shift;
+  document.body.dataset.shift = String(shift);
+  document.querySelectorAll(".shift-tab").forEach((tab) => {
+    const on = Number(tab.dataset.shift) === shift;
+    tab.classList.toggle("active", on);
+    tab.setAttribute("aria-selected", on ? "true" : "false");
+  });
+
+  const copy = SHIFT_COPY[shift] || SHIFT_COPY[1];
+  const set = (selector, value, html) => {
+    const node = document.querySelector(selector);
+    if (node) node[html ? "innerHTML" : "textContent"] = value;
+  };
+  set("#introEyebrow", copy.eyebrow);
+  set("#introTitle", copy.title, true);
+  set("#introLead", copy.lead);
+  set("#briefTime", copy.time);
+  set("#briefRoutes", copy.routes);
+  set("#briefMissions", copy.missions);
+  set("#briefMode", copy.mode);
+  set("#scenarioHeading", copy.heading);
+  set("#scenarioNote", copy.note);
+  set("#startGame", copy.start);
+
+  if ((getPackById(activePackId).shift || 1) !== shift) {
+    const pack = missionPacks.find((item) => (item.shift || 1) === shift) || missionPacks[0];
+    activePackId = pack.id;
+    missions = pack.missions;
+    state = loadPackState(pack.id);
+    if (!options.silent) saveState();
+  }
+
+  renderPackSelector();
+  renderMap();
+  renderResumeButton();
+}
 
 function getPackById(packId) {
   return missionPacks.find((pack) => pack.id === packId) || missionPacks[0];
+}
+
+function packSeconds(packId) {
+  return (getPackById(packId).minutes || 60) * 60;
+}
+
+function totalSeconds() {
+  return packSeconds(state.packId);
 }
 
 function defaultState(packId = missionPacks[0].id) {
@@ -617,33 +694,57 @@ function defaultState(packId = missionPacks[0].id) {
     packId: pack.id,
     current: 0,
     score: 0,
-    secondsLeft: TOTAL_SECONDS,
+    secondsLeft: packSeconds(pack.id),
     completed: Array(pack.missions.length).fill(false),
     answers: Array(pack.missions.length).fill(null),
+    hints: Array(pack.missions.length).fill(false),
     startedAt: null
   };
+}
+
+function packKey(packId) {
+  return `${STORAGE_KEY}:${packId}`;
+}
+
+function normalizeState(saved, pack) {
+  if (!saved || !Array.isArray(saved.completed) || saved.completed.length !== pack.missions.length) return null;
+  if (!Array.isArray(saved.hints) || saved.hints.length !== pack.missions.length) {
+    saved.hints = Array(pack.missions.length).fill(false);
+  }
+  return saved;
 }
 
 function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     const pack = getPackById(saved?.packId);
-    if (!saved || !Array.isArray(saved.completed) || saved.completed.length !== pack.missions.length) {
-      return defaultState();
-    }
-    return saved;
+    return normalizeState(saved, pack) || defaultState();
   } catch {
     return defaultState();
   }
 }
 
+function loadPackState(packId) {
+  try {
+    const pack = getPackById(packId);
+    const own = normalizeState(JSON.parse(localStorage.getItem(packKey(pack.id))), pack);
+    if (own) return own;
+    const last = normalizeState(JSON.parse(localStorage.getItem(STORAGE_KEY)), pack);
+    return last && last.packId === pack.id ? last : defaultState(pack.id);
+  } catch {
+    return defaultState(packId);
+  }
+}
+
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  localStorage.setItem(packKey(state.packId), JSON.stringify(state));
 }
 
 function startFresh(packId = activePackId) {
   activePackId = packId;
   missions = getPackById(activePackId).missions;
+  activeShift = getPackById(activePackId).shift || 1;
   state = defaultState(activePackId);
   state.startedAt = Date.now();
   saveState();
@@ -672,7 +773,8 @@ function renderPackSelector() {
   selector.innerHTML = "";
 
   missionPacks.forEach((pack, index) => {
-    const visual = SCENARIO_VISUALS[index % SCENARIO_VISUALS.length];
+    if ((pack.shift || 1) !== activeShift) return;
+    const visual = pack.visual || SCENARIO_VISUALS[index % SCENARIO_VISUALS.length];
     const button = document.createElement("button");
     button.className = "pack-option";
     button.type = "button";
@@ -691,7 +793,7 @@ function renderPackSelector() {
     button.addEventListener("click", () => {
       activePackId = pack.id;
       missions = pack.missions;
-      state = defaultState(pack.id);
+      state = loadPackState(pack.id);
       saveState();
       renderPackSelector();
       renderMap();
@@ -703,10 +805,20 @@ function renderPackSelector() {
 
 function renderMap() {
   missionMap.innerHTML = "";
+  const groups = getPackById(state.packId).groups || [];
   missions.forEach((mission, index) => {
+    const group = groups.find((item) => item.from === index + 1);
+    if (group) {
+      const heading = document.createElement("div");
+      heading.className = "map-group";
+      heading.dataset.color = group.color || "violet";
+      heading.textContent = group.name;
+      missionMap.append(heading);
+    }
     const button = document.createElement("button");
     button.className = "mission-tab";
     button.type = "button";
+    button.dataset.role = String(mission.role || "").toLowerCase();
     button.innerHTML = `
       <span class="mission-number">${String(index + 1).padStart(2, "0")}</span>
       <span class="mission-copy">
@@ -739,6 +851,12 @@ function renderMission() {
   missionTask.innerHTML = "";
   addPrompt(mission);
   renderTask(mission);
+  if (mission.h && window.Shift2) {
+    window.Shift2.renderHint(mission, missionTask, state, state.current, () => {
+      state.hints[state.current] = true;
+      saveState();
+    });
+  }
   updateStatus();
 }
 
@@ -753,6 +871,8 @@ function addPrompt(mission) {
     });
     missionTask.append(artifact);
   }
+
+  if (mission.blocks && window.Shift2) window.Shift2.renderBlocks(mission, missionTask);
 
   const prompt = document.createElement("strong");
   prompt.textContent = mission.prompt;
@@ -783,7 +903,7 @@ function renderTask(mission) {
     mission.options.forEach((option, index) => {
       const row = document.createElement("div");
       row.className = "mini-card input-row";
-      row.innerHTML = `<strong>${option}</strong><label for="order-${index}">Позиция</label><select id="order-${index}"><option value="">Не использовать</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>`;
+      row.innerHTML = `<strong>${option}</strong><label for="order-${index}">Позиция</label><select id="order-${index}"><option value="">Не использовать</option>${Array.from({ length: mission.n || 4 }, (_, k) => `<option value="${k + 1}">${k + 1}</option>`).join("")}</select>`;
       grid.append(row);
     });
     missionTask.append(grid);
@@ -825,10 +945,11 @@ function checkCurrentAnswer() {
 
   if (correct && !state.completed[state.current]) {
     state.completed[state.current] = true;
-    state.score += mission.points;
+    state.score += mission.h && window.Shift2 ? window.Shift2.pointsFor(mission, state, state.current) : mission.points;
   }
 
-  feedback.textContent = correct ? mission.success : mission.fail;
+  const successText = mission.h && window.Shift2 ? window.Shift2.successText(mission, answer) : mission.success;
+  feedback.textContent = correct ? successText : mission.fail;
   feedback.className = `feedback ${correct ? "good" : "bad"}`;
   saveState();
   updateStatus();
@@ -863,6 +984,8 @@ function collectAnswer(mission) {
 }
 
 function isCorrect(mission, answer) {
+  if (mission.h && window.Shift2) return window.Shift2.verify(mission, answer);
+
   if (Array.isArray(mission.answer)) {
     if (mission.type === "order" || mission.type === "sequence") {
       const picked = answer
@@ -912,11 +1035,13 @@ function updateStatus() {
   progressDonut.style.setProperty("--progress", `${percent * 3.6}deg`);
   document.querySelector("#queueStatus").textContent = `${done} выполнено`;
 
-  [...missionMap.children].forEach((button, index) => {
+  [...missionMap.querySelectorAll(".mission-tab")].forEach((button, index) => {
     button.classList.toggle("active", index === state.current);
     button.classList.toggle("done", state.completed[index]);
     button.setAttribute("aria-current", index === state.current ? "step" : "false");
   });
+  const hud = document.querySelector("#shardHud");
+  if (hud && window.Shift2) window.Shift2.renderShardHud(hud, getPackById(state.packId), state);
 
   renderTelemetry();
   renderMissionNetwork();
@@ -951,7 +1076,8 @@ function renderTelemetry() {
   const riskByDifficulty = {
     "Легко": ["LOW", "контролируется"],
     "Средне": ["MED", "нужен анализ"],
-    "Сложно": ["HIGH", "приоритет миссии"]
+    "Сложно": ["HIGH", "приоритет миссии"],
+    "Эксперт": ["CRIT", "критический уровень"]
   };
   const [risk, caption] = riskByDifficulty[mission.difficulty] || ["MED", "нужен анализ"];
 
@@ -966,6 +1092,9 @@ function renderTelemetry() {
 function getMissionNode(mission) {
   const context = `${mission.role} ${mission.title}`.toLowerCase();
   if (/osint|dns|развед/.test(context)) return "attacker";
+  if (/network|трафик|arp|syn/.test(context)) return "firewall";
+  if (/stego|image|изображ/.test(context)) return "ids";
+  if (/reverse|boss/.test(context)) return "soc";
   if (/web|appsec|sql|idor|jwt|cookie|robots|source/.test(context)) return "web";
   if (/devsecops|контейнер|секрет|database/.test(context)) return "database";
   if (/linux|suid|прав/.test(context)) return "ad";
@@ -979,7 +1108,7 @@ function renderMissionNetwork() {
   const activeNodeId = getMissionNode(mission);
   const activeStatus = state.completed[state.current]
     ? "status-success"
-    : mission.difficulty === "Сложно"
+    : mission.difficulty === "Сложно" || mission.difficulty === "Эксперт"
       ? "status-critical"
       : mission.difficulty === "Средне"
         ? "status-warning"
@@ -1046,7 +1175,7 @@ function renderTimeline() {
     .map((completed, index) => completed ? index : -1)
     .filter((index) => index >= 0);
   const lastDone = doneIndexes.at(-1);
-  const elapsed = Math.max(0, TOTAL_SECONDS - state.secondsLeft);
+  const elapsed = Math.max(0, totalSeconds() - state.secondsLeft);
   const elapsedMinutes = Math.floor(elapsed / 60);
   const mission = missions[state.current];
   const timelineItems = [
@@ -1090,7 +1219,7 @@ function showResult() {
 
   const maxScore = missions.reduce((sum, mission) => sum + mission.points, 0);
   const percent = Math.round((state.score / maxScore) * 100);
-  const spent = TOTAL_SECONDS - state.secondsLeft;
+  const spent = totalSeconds() - state.secondsLeft;
   const level = getLevel(percent);
 
   document.querySelector("#badgeLevel").textContent = level.short;
@@ -1116,15 +1245,18 @@ function showResult() {
 }
 
 function renderSkillChart() {
-  const groups = [
-    { name: "Web", match: /web|appsec/i, earned: 0, total: 0 },
-    { name: "Аналитика", match: /forensic|logs|incident|osint/i, earned: 0, total: 0 },
-    { name: "Системы", match: /linux|devsecops|scripting/i, earned: 0, total: 0 },
-    { name: "Crypto", match: /crypto/i, earned: 0, total: 0 }
-  ];
+  const packGroups = getPackById(state.packId).skillGroups;
+  const groups = packGroups
+    ? packGroups.map((group) => ({ name: group.name, match: new RegExp(group.match, "i"), earned: 0, total: 0 }))
+    : [
+        { name: "Web", match: /web|appsec/i, earned: 0, total: 0 },
+        { name: "Аналитика", match: /forensic|logs|incident|osint/i, earned: 0, total: 0 },
+        { name: "Системы", match: /linux|devsecops|scripting/i, earned: 0, total: 0 },
+        { name: "Crypto", match: /crypto/i, earned: 0, total: 0 }
+      ];
 
   missions.forEach((mission, index) => {
-    const group = groups.find((item) => item.match.test(mission.role)) || groups[1];
+    const group = groups.find((item) => item.match.test(mission.role)) || groups[Math.min(1, groups.length - 1)];
     group.total += mission.points;
     if (state.completed[index]) group.earned += mission.points;
   });

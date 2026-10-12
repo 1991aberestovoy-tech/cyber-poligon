@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#171d1b">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <title>Киберполигон: 30 заданий за час</title>
+    <title>Киберполигон: две смены CTF</title>
     <meta
       name="description"
-      content="CTF-турнир по кибербезопасности для школьников: 30 заданий примерно на час, без регистрации."
+      content="CTF-турнир по кибербезопасности для школьников: Смена 1 — 30 заданий за час, Смена 2 — 40 экспертных заданий, без регистрации."
     >
     <link rel="stylesheet" href="styles.css?v=soc3">
+    <link rel="stylesheet" href="shift2.css?v=s2a">
   </head>
   <body>
     <svg class="svg-sprite" aria-hidden="true">
@@ -64,14 +65,18 @@
             <span class="brand-mark"><svg><use href="#icon-shield"></use></svg></span>
             <span><strong>КИБЕРПОЛИГОН</strong><small>Учебный центр защиты</small></span>
           </a>
+          <nav class="shift-switch" role="tablist" aria-label="Выбор смены">
+            <button class="shift-tab active" type="button" role="tab" data-shift="1" aria-selected="true">Смена 1</button>
+            <button class="shift-tab" type="button" role="tab" data-shift="2" aria-selected="false">Смена 2 <em>NEW</em></button>
+          </nav>
           <div class="connection-state"><i></i> Система готова</div>
         </header>
 
         <section class="intro-briefing">
           <div class="intro-copy">
-            <p class="eyebrow">Школьный CTF-турнир</p>
-            <h1>Твоя смена<br>в центре защиты</h1>
-            <p class="lead">
+            <p class="eyebrow" id="introEyebrow">Школьный CTF-турнир</p>
+            <h1 id="introTitle">Твоя смена<br>в центре защиты</h1>
+            <p class="lead" id="introLead">
               Исследуй инфраструктуру, находи флаги и связывай события в единый инцидент.
               Здесь ценятся внимательность, логика и командная работа.
             </p>
@@ -84,12 +89,12 @@
           <div class="briefing-board" aria-label="Параметры смены">
             <div class="briefing-heading">
               <span>SHIFT BRIEF</span>
-              <strong>60:00</strong>
+              <strong id="briefTime">60:00</strong>
             </div>
             <div class="briefing-grid">
-              <div><small>Маршрутов</small><strong>1</strong></div>
-              <div><small>Миссий</small><strong>30</strong></div>
-              <div><small>Режим</small><strong>CTF</strong></div>
+              <div><small>Маршрутов</small><strong id="briefRoutes">1</strong></div>
+              <div><small>Миссий</small><strong id="briefMissions">30</strong></div>
+              <div><small>Режим</small><strong id="briefMode">CTF</strong></div>
               <div><small>Регистрация</small><strong>Не нужна</strong></div>
             </div>
             <div class="signal-line" aria-hidden="true">
@@ -105,7 +110,7 @@
               <p class="eyebrow">Сценарии</p>
               <h2 id="scenarioHeading">Выбери уровень операции</h2>
             </div>
-            <p>30 заданий в одном маршруте примерно на 60 минут</p>
+            <p id="scenarioNote">30 заданий в одном маршруте примерно на 60 минут</p>
           </div>
           <div class="pack-selector" id="packSelector" aria-label="Выбор смены"></div>
         </section>
@@ -132,6 +137,7 @@
             </div>
           </div>
           <div class="status-strip" aria-label="Статус игры">
+            <button class="toolkit-button" id="openToolkit" type="button" title="Кодировки, шифры, хэши, песочница">🧰 Инструменты</button>
             <span><svg><use href="#icon-clock"></use></svg><b id="timer">60:00</b></span>
             <span><svg><use href="#icon-score"></use></svg><b id="score">0 баллов</b></span>
             <span class="compact-progress"><b id="progressText">1 / 10</b><small>миссия</small></span>
@@ -155,6 +161,7 @@
               <span>Очередь миссий</span>
               <small id="queueStatus">0 выполнено</small>
             </div>
+            <div id="shardHud" class="shard-hud"></div>
             <div class="mission-map" id="missionMap"></div>
           </aside>
 
@@ -298,6 +305,11 @@
     </main>
 
     <script src="ctf-missions.js?v=ctf2"></script>
-    <script src="app.js?v=soc4"></script>
+    <script src="shift2-missions.js?v=s2a"></script>
+    <script src="shift2-core.js?v=s2a"></script>
+    <script src="shift2-blocks.js?v=s2a"></script>
+    <script src="shift2-terminal.js?v=s2a"></script>
+    <script src="shift2-tools.js?v=s2a"></script>
+    <script src="app.js?v=s2a"></script>
   </body>
 </html>

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QR для подключения</title>
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0a0816;color:#e9e4ff;font-family:system-ui,sans-serif;text-align:center}
+.card{padding:32px;border-radius:20px;background:#141029;border:1px solid #4a3d86;box-shadow:0 0 50px rgba(184,107,255,.4)}
+#qr{background:#fff;padding:18px;border-radius:12px;display:inline-block}#qr svg,#qr img{display:block;width:min(70vmin,420px);height:auto}
+code{display:block;margin-top:16px;font-size:22px;color:#2fe6ff}p{color:#cfc8f5;max-width:420px}</style></head>
+<body><div class="card"><h1>Киберполигон</h1><div id="qr"></div><code id="url"></code>
+<p>Наведите камеру телефона. Телефон должен быть в той же Wi‑Fi сети, что и этот компьютер.</p></div>
+<script src="qrcode.js"></script>
+<script>
+const ip=new URLSearchParams(location.search).get("ip");
+const host=ip||location.hostname, port=location.port?":"+location.port:"";
+const url="http://"+host+port+"/";
+const q=qrcode(0,"M");q.addData(url);q.make();
+document.getElementById("qr").innerHTML=q.createSvgTag({cellSize:8,margin:0,scalable:true});
+document.getElementById("url").textContent=url;
+</script></body></html>
